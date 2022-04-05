@@ -21,6 +21,7 @@ read SSH_PORT
 apt update
 apt --yes install wireguard
 apt --yes install ufw
+mkdir /etc/wireguard
 
 ### Generate server keys
 wg genkey | sudo tee /etc/wireguard/server_private.key
@@ -39,9 +40,9 @@ SaveConfig = false
 PostUp = ufw route allow in on wg0 out on eth0
 PostUp = iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE
 PreDown = ufw route delete allow in on wg0 out on eth0
-PreDown = iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE" >> /etc/wireguard/wg0.conf
+PreDown = iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE" > /etc/wireguard/wg0.conf
 
-echo "net.ipv4.ip_forward=1" > /etc/sysctl.conf
+echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 
 sysctl -p
 ufw allow $PORT/udp
@@ -52,7 +53,7 @@ ufw status
 
 systemctl enable wg-quick@wg0.service
 systemctl start wg-quick@wg0.service
-systemctl status wg-quick@wg0.service
+systemctl status --no-pager -l wg-quick@wg0.service
 
 echo -e "${PURPLE}Done! Now you can run${GREEN}
 ./add_client.sh

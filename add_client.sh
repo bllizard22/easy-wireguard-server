@@ -24,7 +24,7 @@ DEVICE_PUBLIC=$(</etc/wireguard/clients/$DEVICE_NAME.key.pub)
 DEVICE_PRIVATE=$(</etc/wireguard/clients/$DEVICE_NAME.key)
 line=$( tail -n 1 /etc/wireguard/wg0.conf )
 IFS='.'; last_ips=($line); unset IFS;
-last_ip=${last_ips[3]}; NEXT_IP=$((last_ip+=1))
+last_ip=${last_ips[3]}; NEXT_IP=$((last_ip+=2))
 echo "Server public - $SERVER_PUBLIC
 Device public - $DEVICE_PUBLIC
 Device private - $DEVICE_PRIVATE
