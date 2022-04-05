@@ -2,68 +2,34 @@
 
 GREEN='\033[0;32m'
 PURPLE='\033[0;35m'
+RED='\033[0;31m'
 NC='\033[0m'
 
-### Ask for a device name and check
-### if config can be outputted as QR-code
-echo -en "${GREEN}Choose port for VPN: [1-65535 or 0 for random value]${NC}"
-read input
-if [ $input == "0" ];
-then
-	PORT=$[ $RANDOM * 2 ]
-else
-	PORT=$input
-fi
-echo -en "${GREEN}Enter your SSH port: ${NC}"
-read SSH_PORT
-
-### Install WireGuard and Firewall
-apt update
-apt --yes install wireguard
-apt --yes install ufw
-mkdir /etc/wireguard
-
-### Generate server keys
-wg genkey | sudo tee /etc/wireguard/server_private.key
-chmod go= /etc/wireguard/server_private.key
-cat /etc/wireguard/server_private.key | wg pubkey | sudo tee /etc/wireguard/server_public.key
-SERVER_PRIVATE=$(</etc/wireguard/server_private.key)
-NETWORK_DEVICE=$(ip route get 8.8.8.8 | awk -F"dev " 'NR==1{split($2,a," ");print a[1]}')
-
-touch /etc/wireguard/wg0.conf
-echo "[Interface]
-PrivateKey = $SERVER_PRIVATE
-Address = 10.18.0.1
-ListenPort = $PORT
-SaveConfig = false
-
-PostUp = ufw route allow in on wg0 out on eth0
-PostUp = iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE
-PreDown = ufw route delete allow in on wg0 out on eth0
-PreDown = iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE" > /etc/wireguard/wg0.conf
-
-echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
-
-sysctl -p
-ufw allow $PORT/udp
-ufw allow $SSH_PORT/tcp
-ufw disable
-ufw --force enable
-ufw status
-systemctl enable wg-quick@wg0.service
-systemctl start wg-quick@wg0.service
-systemctl status --no-pager -l wg-quick@wg0.service
-
-### Download script for adding clients
+echo -e "${GREEN}Downloading scripts...${NC}"
+mkdir easy_wireguard
+cd easy_wireguard
+curl -O https://raw.githubusercontent.com/bllizard22/easy-wireguard-server/main/setup_server.sh
+chmod +x setup_server.sh
 curl -O https://raw.githubusercontent.com/bllizard22/easy-wireguard-server/main/add_client.sh
 chmod +x add_client.sh
+curl -O https://raw.githubusercontent.com/bllizard22/easy-wireguard-server/main/remove_server.sh
+chmod +x remove_server.sh
+cd ..
 
-echo -e "${PURPLE}Done! Now you can run${GREEN} ./add_client.sh
-${PURPLE}This will generate configuration for a new client.
-Would you like to do it now? [y/n]${NC}"
-read NEED_CLIENT
+echo -en "${GREEN}Choose the action:
+[1] - Setup server
+[2] - Add new client (peer)
+${RED}[3] - Remove server from this machine${GREEN}
 
-if [ $NEED_CLIENT == "y" ];
-then
-	./add_client.sh
+[1/2/3]: ${NC}"
+read OPTION
+
+if [ $OPTION == "1" ]; then
+	./easy_wireguard/setup_server.sh
+elif [ $OPTION == "2" ]; then
+	./easy_wireguard/add_client.sh
+elif [ $OPTION == "3" ]; then
+	./easy_wireguard/remove_server.sh	
+else
+	echo -e "${PURPLE}Exit without actions${NC}"
 fi
