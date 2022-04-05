@@ -6,8 +6,14 @@ NC='\033[0m'
 
 ### Ask for a device name and check
 ### if config can be outputted as QR-code
-echo -en "${GREEN}Choose port for VPN: ${NC}"
-read PORT
+echo -en "${GREEN}Choose port for VPN: [1-65535 or 0 for random value]${NC}"
+read input
+if [ $input == "0" ];
+then
+	PORT=$[ $RANDOM * 2 ]
+else
+	PORT=$input
+fi
 echo -en "${GREEN}Enter your SSH port: ${NC}"
 read SSH_PORT
 
