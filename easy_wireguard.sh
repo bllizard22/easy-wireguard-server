@@ -50,11 +50,20 @@ ufw allow $SSH_PORT/tcp
 ufw disable
 ufw --force enable
 ufw status
-
 systemctl enable wg-quick@wg0.service
 systemctl start wg-quick@wg0.service
 systemctl status --no-pager -l wg-quick@wg0.service
 
-echo -e "${PURPLE}Done! Now you can run${GREEN}
-./add_client.sh
-${PURPLE}This will generate configuration for a new client${NC}"
+### Download script for adding clients
+curl -O https://raw.githubusercontent.com/bllizard22/easy-wireguard-server/main/add_client.sh
+chmod +x add_client.sh
+
+echo -e "${PURPLE}Done! Now you can run${GREEN} ./add_client.sh
+${PURPLE}This will generate configuration for a new client.
+Would you like to do it now? [y/n]${NC}"
+read NEED_CLIENT
+
+if [ $NEED_CLIENT == "y" ];
+then
+	./add_client.sh
+fi

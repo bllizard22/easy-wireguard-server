@@ -1,6 +1,11 @@
 # Easy WireGuard Server
 Scripts for quickly setting up your WireGuard server.
 
+## Setup curl
+You can setup *curl* with
+
+`apt --yes install curl`
+
 ## Setup server
 Download and run script with:
 ```
