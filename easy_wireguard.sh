@@ -54,5 +54,6 @@ systemctl enable wg-quick@wg0.service
 systemctl start wg-quick@wg0.service
 systemctl status wg-quick@wg0.service
 
-echo "${PURPLE}Done! Now you can run${GREEN} ./add_client.sh${PURPLE}
-This will generate configuration for a new client${NC}"
+echo -e "${PURPLE}Done! Now you can run${GREEN}
+./add_client.sh
+${PURPLE}This will generate configuration for a new client${NC}"
