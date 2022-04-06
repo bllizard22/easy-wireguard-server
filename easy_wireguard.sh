@@ -20,7 +20,7 @@ if ! [ -f "add_client.sh" ]; then
 	chmod +x add_client.sh
 fi
 if ! [ -f "remove_server.sh" ]; then
-    curl -O https://raw.githubusercontent.com/bllizard22/easy-wireguard-server/main/remove_server.sh
+	curl -O https://raw.githubusercontent.com/bllizard22/easy-wireguard-server/main/remove_server.sh
 	chmod +x remove_server.sh
 fi
 cd ..

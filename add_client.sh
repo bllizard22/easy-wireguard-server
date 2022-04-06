@@ -35,7 +35,7 @@ touch /etc/wireguard/clients/$DEVICE_NAME.conf
 echo "[Interface]
 PrivateKey = $DEVICE_PRIVATE
 Address = 10.18.0.$NEXT_IP
-DNS = 8.8.8.8, 1.1.1.1, 1.0.0.1
+DNS = 8.8.8.8, 1.1.1.1, 208.67.222.222, 94.140.14.14, 76.76.19.19, 9.9.9.9
 
 [Peer]
 PublicKey = $SERVER_PUBLIC
