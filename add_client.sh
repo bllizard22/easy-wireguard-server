@@ -59,6 +59,7 @@ if [ $IS_QRCODE == "y" ];
 then
 	apt --yes install qrencode
 	qrencode -t utf8 < /etc/wireguard/clients/$DEVICE_NAME.conf
+	echo -e "${PURPLE}^^^ Scan this QR-code with WireGuard App ^^^${NC}"
 else 
 	echo -e "${GREEN}Config for client:
 ${PURPLE}$(</etc/wireguard/clients/$DEVICE_NAME.conf)${NC}"

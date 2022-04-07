@@ -13,6 +13,7 @@ then
 	wg-quick down wg0
 	apt --yes remove wireguard
 	rm -r /etc/wireguard
+	echo -e "${GREEN}Done!${NC}"
+else
+	echo -e "${GREEN}Aborted${NC}"
 fi
-
-echo -e "${GREEN}Done!${NC}"

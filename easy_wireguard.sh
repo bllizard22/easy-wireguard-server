@@ -5,10 +5,9 @@ PURPLE='\033[0;35m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-echo -e "${GREEN}Downloading scripts...${NC}"
-
 if ! [ -d "easy_wireguard" ]; then
     mkdir easy_wireguard
+    echo -e "${GREEN}Downloading scripts...${NC}"
 fi
 cd easy_wireguard
 if ! [ -f "setup_server.sh" ]; then
