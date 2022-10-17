@@ -1,7 +1,11 @@
 # Easy WireGuard Server
 Script to easily configure the WireGuard server. You can select desired action in `./easy_wireguard.sh` script and it will guide you through the process.
 
-## First step
+## First steps
+Enter sudo mode in terminal
+
+`sudo -i`
+
 Maybe you wil need install *curl*. You can do it with
 
 `apt --yes install curl`
