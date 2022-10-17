@@ -17,7 +17,7 @@ wg genkey | sudo tee /etc/wireguard/clients/$DEVICE_NAME.key | wg pubkey | sudo 
 
 ### Get constants for further actions 
 SERVER_PUBLIC=$(</etc/wireguard/server_public.key)
-IP_ADR=$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')
+IP_ADR=$(dig +short myip.opendns.com @resolver1.opendns.com)
 line=$(grep -i "ListenPort" /etc//wireguard/wg0.conf)
 IFS='= '; port=($line); unset IFS; IP_PORT="$IP_ADR:${port[1]}"
 DEVICE_PUBLIC=$(</etc/wireguard/clients/$DEVICE_NAME.key.pub)
