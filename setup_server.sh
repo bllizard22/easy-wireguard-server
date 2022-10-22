@@ -21,6 +21,7 @@ read SSH_PORT
 apt update
 apt --yes install wireguard
 apt --yes install ufw
+apt --yes install dnsutils
 mkdir /etc/wireguard
 
 ### Generate server keys
