@@ -23,7 +23,7 @@ You will be prompted to pick the action
 
 ## Setup server
 
-When prompted enter any number from 1 to 65535 for VPN connetion or 0 to assign random value. If you use SSH connection enter port number for the rule in Firewall.
+When prompted enter any number from 1 to 65535 for VPN connetion or 0 to assign random value. If you use SSH connection enter port number for the rule in Firewall. If you don`t know the port number then it`s probably 22.
 
 <img src="./resources/setup_1.jpeg" width="500" />
 
