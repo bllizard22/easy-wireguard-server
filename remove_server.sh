@@ -5,10 +5,10 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 
 echo -en "${RED}This script will remove WireGuard server from this machine.
-Are you sure? [Y/n]${NC}"
+Are you sure? [y/n]${NC}"
 read FLAG
 
-if [ $FLAG == "Y" ];
+if [[ $FLAG == "y" ]];
 then
 	wg-quick down wg0
 	apt --yes remove wireguard

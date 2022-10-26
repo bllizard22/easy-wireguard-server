@@ -6,16 +6,25 @@ NC='\033[0m'
 
 ### Ask for a device name and check
 ### if config can be outputted as QR-code
-echo -en "${GREEN}Choose port for VPN: [1-65535 or 0 for random value]${NC}"
-read input
-if [ $input == "0" ];
+echo -en "${GREEN}Choose port for VPN, 1-65535, leave blank for random: ${NC}"
+read input_VPN_PORT
+if [[ $input == "" ]];
 then
 	PORT=$[ $RANDOM * 2 ]
 else
-	PORT=$input
+	PORT=$input_VPN_PORT
 fi
-echo -en "${GREEN}Enter your SSH port: ${NC}"
-read SSH_PORT
+
+echo -en "${GREEN}Enter your SSH port, leave blank for default [22]: ${NC}"
+read input_SSH_PORT
+if [[ $input_SSH_PORT == "" ]];
+then
+	SSH_PORT="22"
+else
+	SSH_PORT=$input_SSH_PORT
+fi
+
+SERVER_PRIVATE_IP="10.18.0.1"
 
 ### Install WireGuard and Firewall
 apt update
@@ -34,7 +43,7 @@ NETWORK_DEVICE=$(ip route get 8.8.8.8 | awk -F"dev " 'NR==1{split($2,a," ");prin
 touch /etc/wireguard/wg0.conf
 echo "[Interface]
 PrivateKey = $SERVER_PRIVATE
-Address = 10.18.0.1
+Address = $SERVER_PRIVATE_IP
 ListenPort = $PORT
 SaveConfig = false
 
@@ -55,12 +64,12 @@ systemctl enable wg-quick@wg0.service
 systemctl start wg-quick@wg0.service
 systemctl status --no-pager -l wg-quick@wg0.service
 
-echo -en "${PURPLE}Done! Now you can run${GREEN} ./add_client.sh
-${PURPLE}This will generate configuration for a new client.
-Would you like to do it now? [y/n]${NC}"
+echo -en "${PURPLE}Done! Now you need to add a few peers.
+Would you like to do it now [y/n]? "
 read NEED_CLIENT
-
-if [ $NEED_CLIENT == "y" ];
+if [[ $NEED_CLIENT == "y" || $NEED_CLIENT == "" ]];
 then
 	./easy_wireguard/add_client.sh
+else 
+	echo "You can add peers later by running${GREEN} ./easy_wireguard/add_client.sh ${NC}manually."
 fi
