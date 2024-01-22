@@ -70,12 +70,12 @@ No input required, the backup will be created in the current working folder unde
 easy-wireguard-server-YEAR-MONTH-DAY-HOSTNAME-backup.tar.gz
 Cherish it.
 
-## Step 88: showing QR of already created peer configuration (option 4)
+## Step 5: showing QR of already created peer configuration (option 4)
 You will be prompted to enter configuration/device name exactly as you did before.
 
 After that in case of success QR will be shown.
 
-## Step 99: removing Wireguard server from the system (option 6)
+## Step 6: removing Wireguard server from the system (option 6)
 
 ```
 This script will remove WireGuard server from this machine.
